@@ -1,4 +1,4 @@
-package com.warmachine.errorcenterapi.dto.user;
+package com.warmachine.errorcenterapi.dto;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,17 +1,17 @@
-package com.warmachine.errorcenterapi.controller.error;
+package com.warmachine.errorcenterapi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.warmachine.errorcenterapi.service.ErrorService;
+import com.warmachine.errorcenterapi.service.impl.ErrorServiceImpl;
 
 @RestController
 public class ErrorAPI {
 	
-	private ErrorService errorService;
+	private ErrorServiceImpl errorService;
 	
 	@Autowired
-	public ErrorAPI(ErrorService errorService) {
+	public ErrorAPI(ErrorServiceImpl errorService) {
 		this.errorService = errorService;
 	}
 

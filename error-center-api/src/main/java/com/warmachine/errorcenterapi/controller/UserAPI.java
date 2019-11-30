@@ -1,20 +1,19 @@
-package com.warmachine.errorcenterapi.controller.user;
+package com.warmachine.errorcenterapi.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.warmachine.errorcenterapi.dto.user.UserLoginRequest;
-import com.warmachine.errorcenterapi.dto.user.UserRecoverPasswordRequest;
-import com.warmachine.errorcenterapi.dto.user.UserRegisterRequest;
-import com.warmachine.errorcenterapi.service.UserService;
+import com.warmachine.errorcenterapi.dto.UserLoginRequest;
+import com.warmachine.errorcenterapi.dto.UserRecoverPasswordRequest;
+import com.warmachine.errorcenterapi.dto.UserRegisterRequest;
+import com.warmachine.errorcenterapi.service.impl.UserServiceImpl;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.NonNull;
@@ -24,10 +23,10 @@ import lombok.NonNull;
 public class UserAPI {
 
 	@Autowired
-	private UserService userService;
+	private UserServiceImpl userService;
 
 	@Autowired
-	public UserAPI(UserService userService) {
+	public UserAPI(UserServiceImpl userService) {
 		this.userService = userService;
 	}
 
