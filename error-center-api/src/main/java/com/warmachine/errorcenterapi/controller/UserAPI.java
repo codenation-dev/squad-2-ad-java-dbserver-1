@@ -13,20 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.warmachine.errorcenterapi.dto.UserLoginRequest;
 import com.warmachine.errorcenterapi.dto.UserRecoverPasswordRequest;
 import com.warmachine.errorcenterapi.dto.UserRegisterRequest;
-import com.warmachine.errorcenterapi.service.impl.UserServiceImpl;
+import com.warmachine.errorcenterapi.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.NonNull;
 
 @RestController
-@RequestMapping(value = "/v1", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v2", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserAPI {
 
-	@Autowired
-	private UserServiceImpl userService;
+	private UserService userService;
 
 	@Autowired
-	public UserAPI(UserServiceImpl userService) {
+	public UserAPI(UserService userService) {
 		this.userService = userService;
 	}
 
@@ -41,7 +40,7 @@ public class UserAPI {
 
 		return new ResponseEntity<>(headers, HttpStatus.OK);
 	}
-
+ 
 	@PostMapping(value = "/register")
 	@ApiOperation(value = "Operacao que realiza o registro de um novo usuario.")
 	public ResponseEntity<Object> register(@RequestBody @NonNull UserRegisterRequest userRegisterRequest) {
