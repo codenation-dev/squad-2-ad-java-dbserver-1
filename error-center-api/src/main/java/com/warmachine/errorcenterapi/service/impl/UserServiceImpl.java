@@ -1,5 +1,7 @@
 package com.warmachine.errorcenterapi.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,16 +15,18 @@ import com.warmachine.errorcenterapi.service.UserService;
 @Service
 public class UserServiceImpl implements UserService{
 	
+	@Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
-	public UserServiceImpl(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
 
 	@Override
-	public User register(User user) {
+	public User save(User user) {
 		return userRepository.save(user);
+	}
+	
+	@Override
+	public Optional<User> findByEmail(String email) {
+		return userRepository.findByEmailEquals(email);
 	}
 
 	
