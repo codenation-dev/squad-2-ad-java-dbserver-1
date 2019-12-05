@@ -1,4 +1,4 @@
-package com.warmachine.errorcenterapi.controller;
+package com.warmachine.errorcenterapi.controller.user;
 
 import javax.validation.Valid;
 

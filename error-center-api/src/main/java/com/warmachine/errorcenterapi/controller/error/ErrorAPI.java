@@ -1,4 +1,4 @@
-package com.warmachine.errorcenterapi.controller;
+package com.warmachine.errorcenterapi.controller.error;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
