@@ -1,4 +1,4 @@
-package com.warmachine.errorcenterapi.dto;
+package com.warmachine.errorcenterapi.controller.user.request;
 
 import javax.validation.constraints.NotNull;
 

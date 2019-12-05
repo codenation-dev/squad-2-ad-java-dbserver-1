@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.warmachine.errorcenterapi.dto.UserDto;
+import com.warmachine.errorcenterapi.controller.user.request.UserDto;
 import com.warmachine.errorcenterapi.entity.User;
 import com.warmachine.errorcenterapi.service.UserService;
 

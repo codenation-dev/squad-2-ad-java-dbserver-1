@@ -2,9 +2,9 @@ package com.warmachine.errorcenterapi.service;
 
 import java.util.Optional;
 
-import com.warmachine.errorcenterapi.dto.UserLoginRequest;
-import com.warmachine.errorcenterapi.dto.UserRecoverPasswordRequest;
-import com.warmachine.errorcenterapi.dto.UserRegisterRequest;
+import com.warmachine.errorcenterapi.controller.user.request.UserLoginRequest;
+import com.warmachine.errorcenterapi.controller.user.request.UserRecoverPasswordRequest;
+import com.warmachine.errorcenterapi.controller.user.request.UserRegisterRequest;
 import com.warmachine.errorcenterapi.entity.User;
 
 import lombok.NonNull;

@@ -5,9 +5,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.warmachine.errorcenterapi.dto.UserLoginRequest;
-import com.warmachine.errorcenterapi.dto.UserRecoverPasswordRequest;
-import com.warmachine.errorcenterapi.dto.UserRegisterRequest;
+import com.warmachine.errorcenterapi.controller.user.request.UserLoginRequest;
+import com.warmachine.errorcenterapi.controller.user.request.UserRecoverPasswordRequest;
+import com.warmachine.errorcenterapi.controller.user.request.UserRegisterRequest;
 import com.warmachine.errorcenterapi.entity.User;
 import com.warmachine.errorcenterapi.repository.UserRepository;
 import com.warmachine.errorcenterapi.service.UserService;
