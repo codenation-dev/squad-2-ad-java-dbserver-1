@@ -1,13 +1,17 @@
 package com.warmachine.errorcenterapi.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -24,7 +28,10 @@ import lombok.NoArgsConstructor;
 @Data
 @EntityListeners(AuditingEntityListener.class)
 @EqualsAndHashCode(of = "id")
-public class ErrorLog {
+@Table(name="errors")
+public class ErrorLog implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +40,8 @@ public class ErrorLog {
 	@CreatedDate
 	private LocalDateTime createdAt;
 	
-	@ManyToOne
+	@JoinColumn(name = "wallet", referencedColumnName = "id")
+	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
 	
 	@NotNull
