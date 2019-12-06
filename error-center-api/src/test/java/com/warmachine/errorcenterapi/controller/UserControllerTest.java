@@ -34,7 +34,7 @@ public class UserControllerTest {
 	private static final String PASSWORD = "123456";
 
 	
-	private static final String URL = "/users";
+	private static final String URL = "/v1/users";
 
 	@MockBean
 	private UserService userService;

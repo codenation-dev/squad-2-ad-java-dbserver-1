@@ -33,7 +33,7 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-	@PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Operacao que realiza a criacao de um novo usuario.", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Response<UserDto>> create(@Valid @RequestBody UserDto dto, BindingResult result){
 		Response<UserDto> response = new Response<UserDto>();
