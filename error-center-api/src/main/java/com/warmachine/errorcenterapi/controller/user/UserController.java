@@ -20,6 +20,7 @@ import com.warmachine.errorcenterapi.controller.user.request.UserDto;
 import com.warmachine.errorcenterapi.entity.User;
 import com.warmachine.errorcenterapi.response.Response;
 import com.warmachine.errorcenterapi.service.UserService;
+import com.warmachine.errorcenterapi.util.Bcrypt;
 
 @RestController
 @RequestMapping("/v1/users")
@@ -61,7 +62,7 @@ public class UserController {
 		User user = new User();
 		user.setId(dto.getId());
 		user.setEmail(dto.getEmail());
-		user.setPassword(dto.getPassword());
+		user.setPassword(Bcrypt.getHash(dto.getPassword()));
 		return user;
 	}
 	
