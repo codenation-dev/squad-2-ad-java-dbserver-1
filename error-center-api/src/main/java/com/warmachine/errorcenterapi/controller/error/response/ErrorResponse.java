@@ -6,8 +6,8 @@ import lombok.Data;
 
 @Data
 public class ErrorResponse {
-    private Ambiente ambiente;
+    private Ambiente ambient;
     private Level level;
-    private String detalhes;
-    private String coletadoPor;
+    private String description;
+    private String usernameFromUser;
 }
