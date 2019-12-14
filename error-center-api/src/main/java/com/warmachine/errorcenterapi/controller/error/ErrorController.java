@@ -1,15 +1,21 @@
 package com.warmachine.errorcenterapi.controller.error;
 
-import com.warmachine.errorcenterapi.controller.error.request.ErrorRequest;
+import com.warmachine.errorcenterapi.controller.error.request.CreateErrorRequest;
 import com.warmachine.errorcenterapi.controller.error.response.ArchiveErrorResponse;
 import com.warmachine.errorcenterapi.controller.error.response.CreateErrorResponse;
 import com.warmachine.errorcenterapi.controller.error.response.DeleteErrorResponse;
 import com.warmachine.errorcenterapi.controller.error.response.DetailErrorResponse;
+import com.warmachine.errorcenterapi.controller.user.request.UserDto;
+import com.warmachine.errorcenterapi.entity.User;
+import com.warmachine.errorcenterapi.response.Response;
 import io.swagger.annotations.ApiOperation;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.warmachine.errorcenterapi.service.impl.ErrorServiceImpl;
@@ -30,9 +36,25 @@ public class ErrorController {
 
 	@PostMapping(value = "/create/{token}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Operacao que realiza a criacao de um novo erro.", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<CreateErrorResponse> createError(@RequestBody @NonNull ErrorRequest errorRequest, @RequestBody @NonNull String token) {
-		Optional<CreateErrorResponse> response = errorService.createError(errorRequest, token);
-		return  ResponseEntity.ok(response.get());
+	public ResponseEntity<Response<CreateErrorResponse>> createError(@RequestBody @NonNull CreateErrorRequest createErrorRequest, @RequestBody @NonNull String token, BindingResult result) {
+		//Optional<CreateErrorResponse> response = errorService.createError(createErrorRequest, token);
+
+		Response<CreateErrorResponse> response = new Response<CreateErrorResponse>();
+		if(result.hasErrors()) {
+			result.getAllErrors().forEach(e -> response.getErrors().add(e.getDefaultMessage()));
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+		}
+		Optional<CreateErrorResponse> optionalCreateErrorResponse = errorService.createError(createErrorRequest, token);
+//		response.setData(this.convertEntityToDto(user));
+//		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
+
+
+		return new ResponseEntity<>(headers, HttpStatus.OK);
+		//return  ResponseEntity.ok(response.get());
 	}
 
 	@GetMapping(value = "/detail/{id}/{token}")

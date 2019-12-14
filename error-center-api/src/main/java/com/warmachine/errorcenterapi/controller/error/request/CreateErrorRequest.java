@@ -5,7 +5,7 @@ import com.warmachine.errorcenterapi.util.Level;
 import lombok.Data;
 
 @Data
-public class ErrorRequest {
+public class CreateErrorRequest {
     private Ambiente ambiente;
     private Level level;
     private String log;

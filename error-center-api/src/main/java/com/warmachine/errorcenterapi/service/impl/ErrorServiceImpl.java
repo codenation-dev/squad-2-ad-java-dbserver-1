@@ -1,6 +1,6 @@
 package com.warmachine.errorcenterapi.service.impl;
 
-import com.warmachine.errorcenterapi.controller.error.request.ErrorRequest;
+import com.warmachine.errorcenterapi.controller.error.request.CreateErrorRequest;
 import com.warmachine.errorcenterapi.controller.error.response.ArchiveErrorResponse;
 import com.warmachine.errorcenterapi.controller.error.response.CreateErrorResponse;
 import com.warmachine.errorcenterapi.controller.error.response.DeleteErrorResponse;
@@ -18,7 +18,7 @@ public class ErrorServiceImpl {
     @Autowired
     private ErrorsRepository errorsRepository;
 
-    public Optional<CreateErrorResponse> createError(ErrorRequest errorRequest, String token) {
+    public Optional<CreateErrorResponse> createError(CreateErrorRequest createErrorRequest, String token) {
         return null;
     }
 
