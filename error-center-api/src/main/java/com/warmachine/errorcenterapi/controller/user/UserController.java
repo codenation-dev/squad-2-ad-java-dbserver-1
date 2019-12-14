@@ -2,9 +2,6 @@ package com.warmachine.errorcenterapi.controller.user;
 
 import javax.validation.Valid;
 
-import com.warmachine.errorcenterapi.controller.user.request.UserLoginRequest;
-import io.swagger.annotations.ApiOperation;
-import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,11 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.warmachine.errorcenterapi.controller.user.request.UserDto;
+import com.warmachine.errorcenterapi.controller.user.request.UserLoginRequest;
+import com.warmachine.errorcenterapi.dto.UserDto;
 import com.warmachine.errorcenterapi.entity.User;
 import com.warmachine.errorcenterapi.response.Response;
 import com.warmachine.errorcenterapi.service.UserService;
 import com.warmachine.errorcenterapi.util.Bcrypt;
+
+import io.swagger.annotations.ApiOperation;
+import lombok.NonNull;
 
 @RestController
 @RequestMapping("/v1/users")
@@ -46,6 +47,7 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 
+	
 	@PostMapping(value = "/login")
 	@ApiOperation(value = "Operacao que realiza o login e retorna o token do usuario.")
 	public ResponseEntity<Object> login(@RequestBody @NonNull UserLoginRequest userLoginRequest) {

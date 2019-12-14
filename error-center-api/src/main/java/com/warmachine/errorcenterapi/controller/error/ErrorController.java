@@ -1,5 +1,6 @@
 package com.warmachine.errorcenterapi.controller.error;
 
+
 import com.warmachine.errorcenterapi.controller.error.request.CreateErrorRequest;
 import com.warmachine.errorcenterapi.controller.error.response.ErrorResponse;
 import com.warmachine.errorcenterapi.entity.User;
@@ -8,24 +9,34 @@ import com.warmachine.errorcenterapi.service.impl.UserServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.warmachine.errorcenterapi.service.impl.ErrorServiceImpl;
 
-import javax.validation.Valid;
 import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
 
 //TODO Arrumar os .get() dos optionals e adicionar excessões
 @RestController
 @RequestMapping("/v1/errors")
 public class ErrorController {
-	
+
 	private ErrorServiceImpl errorService;
 
 	private UserServiceImpl userService;

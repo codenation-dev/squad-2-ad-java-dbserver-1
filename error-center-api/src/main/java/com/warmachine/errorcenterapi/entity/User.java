@@ -30,5 +30,4 @@ public class User implements Serializable{
 	@NotNull
 	@Size(max = 50)
 	private String password;
-
 }
