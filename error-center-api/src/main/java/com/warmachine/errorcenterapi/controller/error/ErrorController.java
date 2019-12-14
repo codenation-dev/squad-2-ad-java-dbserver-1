@@ -1,6 +1,5 @@
 package com.warmachine.errorcenterapi.controller.error;
 
-
 import com.warmachine.errorcenterapi.controller.error.request.CreateErrorRequest;
 import com.warmachine.errorcenterapi.controller.error.response.ErrorResponse;
 import com.warmachine.errorcenterapi.entity.User;
@@ -15,18 +14,11 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-
-
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.warmachine.errorcenterapi.service.impl.ErrorServiceImpl;
 
@@ -83,14 +75,14 @@ public class ErrorController {
 		return  ResponseEntity.ok(response);
 	}
 
-	@GetMapping(value = "/delete/{id}")
+	@DeleteMapping(value = "/delete/{id}")
 	@ApiOperation(value = "Operacao que deleta um erro.", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> delete(@PathVariable @NonNull Long id){
 		errorService.delete(id);
 		return  ResponseEntity.ok("Deleted");
 	}
 
-	@GetMapping(value = "/archive/{id}")
+	@PutMapping(value = "/archive/{id}")
 	@ApiOperation(value = "Operacao que arquiva um erro.", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> archive(@PathVariable @NonNull Long id){
 		errorService.archive(id);
