@@ -15,14 +15,8 @@ public class CreateErrorRequest {
     private Ambiente ambiente;
     @NotNull(message = "Informe o Level")
     private Level level;
-    @NotNull(message = "Informe o Log")
-    private String log;
-    @NotNull(message = "Informe o titulo")
-    private String titulo;
     @NotNull(message = "Informe os detalhes")
     private String detalhes;
     @NotNull(message = "Informe o Coletato por")
     private String coletadoPor;
-    @NotNull(message = "Informe os Eventos")
-    private Integer eventos;
 }

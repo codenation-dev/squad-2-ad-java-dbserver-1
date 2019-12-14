@@ -5,12 +5,9 @@ import com.warmachine.errorcenterapi.util.Level;
 import lombok.Data;
 
 @Data
-public class CreateErrorResponse {
+public class ErrorResponse {
     private Ambiente ambiente;
     private Level level;
-    private String log;
-    private String titulo;
     private String detalhes;
     private String coletadoPor;
-    private Integer eventos;
 }

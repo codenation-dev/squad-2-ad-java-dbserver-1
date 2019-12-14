@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.warmachine.errorcenterapi.util.Ambiente;
+import com.warmachine.errorcenterapi.util.Level;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -29,7 +31,7 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 @EqualsAndHashCode(of = "id")
 @Table(name="errors")
-public class ErrorLog implements Serializable{
+public class Error implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,4 +48,14 @@ public class ErrorLog implements Serializable{
 	
 	@NotNull
 	private String description;
+
+	@NotNull
+	private Level level;
+
+	@NotNull
+	private Ambiente ambient;
+
+	@NotNull
+	private Byte archive;
+
 }

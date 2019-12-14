@@ -1,14 +1,25 @@
 package com.warmachine.errorcenterapi.controller.error;
 
+
+import com.warmachine.errorcenterapi.controller.error.request.CreateErrorRequest;
+import com.warmachine.errorcenterapi.controller.error.response.ErrorResponse;
+import com.warmachine.errorcenterapi.entity.User;
+import com.warmachine.errorcenterapi.response.Response;
+import com.warmachine.errorcenterapi.service.impl.UserServiceImpl;
+import io.swagger.annotations.ApiOperation;
+import lombok.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,67 +28,72 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.warmachine.errorcenterapi.controller.error.request.CreateErrorRequest;
-import com.warmachine.errorcenterapi.controller.error.response.ArchiveErrorResponse;
-import com.warmachine.errorcenterapi.controller.error.response.CreateErrorResponse;
-import com.warmachine.errorcenterapi.controller.error.response.DeleteErrorResponse;
-import com.warmachine.errorcenterapi.controller.error.response.DetailErrorResponse;
-import com.warmachine.errorcenterapi.response.Response;
 import com.warmachine.errorcenterapi.service.impl.ErrorServiceImpl;
 
-import io.swagger.annotations.ApiOperation;
-import lombok.NonNull;
+import java.security.Principal;
 
+//TODO Arrumar os .get() dos optionals e adicionar excessões
 @RestController
 @RequestMapping("/v1/errors")
 public class ErrorController {
-	
+
 	private ErrorServiceImpl errorService;
-	
+
+	private UserServiceImpl userService;
+
 	@Autowired
 	public ErrorController(ErrorServiceImpl errorService) {
 		this.errorService = errorService;
 	}
 
-	@PostMapping(value = "/create/{token}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Operacao que realiza a criacao de um novo erro.", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Response<CreateErrorResponse>> createError(@Valid @RequestBody CreateErrorRequest createErrorRequest, @RequestBody @NonNull String token, BindingResult result) {
-		Response<CreateErrorResponse> response = new Response<CreateErrorResponse>();
+	public ResponseEntity<String> createError(@Valid @RequestBody CreateErrorRequest createErrorRequest, Principal principal, BindingResult result) {
+		Response<ErrorResponse> response = new Response<ErrorResponse>();
+
 		if(result.hasErrors()) {
 			result.getAllErrors().forEach(e -> response.getErrors().add(e.getDefaultMessage()));
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+			return ResponseEntity.badRequest().body("Error");
+			//TODO Result não está sendo utilizado
 		}
 
-		Optional<CreateErrorResponse> optionalCreateErrorResponse = errorService.createError(createErrorRequest, token);
-		response.setData(optionalCreateErrorResponse.get());
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+		Optional<User> userOpt = userService.findByEmail(((UserDetails)principal).getUsername());
+
+		if(userOpt.isPresent()) {
+			User user = userOpt.get();
+			errorService.createError(createErrorRequest, user);
+			return ResponseEntity.ok("Created Error");
+		}
+		else{
+			return ResponseEntity.badRequest().body("User Not Found");
+		}
 	}
 
-	@GetMapping(value = "/detail/{id}/{token}")
+	@GetMapping(value = "/detail/{id}")
 	@ApiOperation(value = "Operacao que realiza o detalhamento.", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<CreateErrorResponse> detailError(@PathVariable @NonNull String id, @RequestBody @NonNull String token) {
-		Optional<CreateErrorResponse> response = errorService.detailError(id, token);
-		return  ResponseEntity.ok(response.get());
+	public ResponseEntity<ErrorResponse> detailError(@PathVariable @NonNull Long id) {
+		ErrorResponse response = errorService.detailError(id);
+		return  ResponseEntity.ok(response);
 	}
 
-	@GetMapping(value = "/detail-all/{id}/{token}")
-	@ApiOperation(value = "Operacao que uma lista de erros.", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<DetailErrorResponse>> detailAllErrors(@PathVariable @NonNull String id, @RequestBody @NonNull String token) {
-		Optional<List<DetailErrorResponse>> response = errorService.detailAllErrors(id, token);
-		return  ResponseEntity.ok(response.get());
+	@GetMapping(value = "/detail")
+	@ApiOperation(value = "Operacao que lista todos os erros.", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ErrorResponse>> detailAllErrors() {
+		List<ErrorResponse> response = errorService.detailAllErrors();
+		return  ResponseEntity.ok(response);
 	}
 
-	@GetMapping(value = "/delete/{id}/{token}")
-	@ApiOperation(value = "Operacao que deleta o erro.", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<DeleteErrorResponse> delete(@PathVariable @NonNull String id, @RequestBody @NonNull String token){
-		Optional<DeleteErrorResponse> response = errorService.delete(id, token);
-		return  ResponseEntity.ok(response.get());
+	@GetMapping(value = "/delete/{id}")
+	@ApiOperation(value = "Operacao que deleta um erro.", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> delete(@PathVariable @NonNull Long id){
+		errorService.delete(id);
+		return  ResponseEntity.ok("Deleted");
 	}
 
-	@GetMapping(value = "/archive/{id}/{token}")
+	@GetMapping(value = "/archive/{id}")
 	@ApiOperation(value = "Operacao que arquiva um erro.", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ArchiveErrorResponse> archive(@PathVariable @NonNull String id, @RequestBody @NonNull String token){
-		Optional<ArchiveErrorResponse> response = errorService.archive(id, token);
-		return  ResponseEntity.ok(response.get());
+	public ResponseEntity<String> archive(@PathVariable @NonNull Long id){
+		errorService.archive(id);
+		return  ResponseEntity.ok("String");
 	}
 }
