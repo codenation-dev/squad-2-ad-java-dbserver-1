@@ -1,4 +1,4 @@
 package com.warmachine.errorcenterapi.controller.error.response;
 
-public class ErrorResponse {
+public class DeleteErrorResponse {
 }
