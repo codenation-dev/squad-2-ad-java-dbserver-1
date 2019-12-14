@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 @EqualsAndHashCode(of = "id")
 @Table(name="errors")
-public class ErrorLog implements Serializable{
+public class Error implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,4 +46,8 @@ public class ErrorLog implements Serializable{
 	
 	@NotNull
 	private String description;
+
+	@NotNull
+	private String level;
+
 }
