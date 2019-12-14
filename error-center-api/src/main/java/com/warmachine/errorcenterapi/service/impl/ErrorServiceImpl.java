@@ -3,10 +3,10 @@ package com.warmachine.errorcenterapi.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.warmachine.errorcenterapi.controller.error.request.ErrorRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.warmachine.errorcenterapi.controller.error.request.CreateErrorRequest;
 import com.warmachine.errorcenterapi.controller.error.response.ErrorResponse;
 import com.warmachine.errorcenterapi.converter.ErrorRequestConverter;
 import com.warmachine.errorcenterapi.entity.Error;
@@ -26,7 +26,7 @@ public class ErrorServiceImpl {
         this.errorsRepository = errorsRepository;
     }
 
-    public void createError(CreateErrorRequest createErrorRequest, User user) {
+    public void createError(ErrorRequest createErrorRequest, User user) {
 
         errorsRepository.save(converter.errorFromRequest(createErrorRequest, user));
 
@@ -35,17 +35,17 @@ public class ErrorServiceImpl {
     public ErrorResponse detailError(Long id) {
 
         Optional<Error> errorOpt = errorsRepository.findById(id);
-        ErrorResponse createErrorResponse = null;
+        ErrorResponse errorResponse = null;
         if(errorOpt.isPresent()){
             Error error = errorOpt.get();
-            createErrorResponse = new ErrorResponse();
-            createErrorResponse.setAmbiente(error.getAmbient());
-            createErrorResponse.setColetadoPor(error.getUser().getEmail());
-            createErrorResponse.setDetalhes(error.getDescription());
-            createErrorResponse.setLevel(error.getLevel());
+            errorResponse = new ErrorResponse();
+            errorResponse.setAmbient(error.getAmbient());
+            errorResponse.setUsernameFromUser(error.getUser().getEmail());
+            errorResponse.setDescription(error.getDescription());
+            errorResponse.setLevel(error.getLevel());
         }
 
-        return createErrorResponse;
+        return errorResponse;
     }
 
     public void delete(Long id) {

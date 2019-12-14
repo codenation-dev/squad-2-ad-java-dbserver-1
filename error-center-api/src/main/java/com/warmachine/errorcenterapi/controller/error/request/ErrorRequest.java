@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CreateErrorRequest {
+public class ErrorRequest {
     @NotNull(message = "Informe o Ambiente")
     private Ambiente ambiente;
     @NotNull(message = "Informe o Level")
