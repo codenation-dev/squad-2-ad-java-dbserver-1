@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.warmachine.errorcenterapi.service.impl.ErrorServiceImpl;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,25 +37,16 @@ public class ErrorController {
 
 	@PostMapping(value = "/create/{token}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Operacao que realiza a criacao de um novo erro.", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Response<CreateErrorResponse>> createError(@RequestBody @NonNull CreateErrorRequest createErrorRequest, @RequestBody @NonNull String token, BindingResult result) {
-		//Optional<CreateErrorResponse> response = errorService.createError(createErrorRequest, token);
-
+	public ResponseEntity<Response<CreateErrorResponse>> createError(@Valid @RequestBody CreateErrorRequest createErrorRequest, @RequestBody @NonNull String token, BindingResult result) {
 		Response<CreateErrorResponse> response = new Response<CreateErrorResponse>();
 		if(result.hasErrors()) {
 			result.getAllErrors().forEach(e -> response.getErrors().add(e.getDefaultMessage()));
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
+
 		Optional<CreateErrorResponse> optionalCreateErrorResponse = errorService.createError(createErrorRequest, token);
-//		response.setData(this.convertEntityToDto(user));
-//		return ResponseEntity.status(HttpStatus.CREATED).body(response);
-
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
-
-
-		return new ResponseEntity<>(headers, HttpStatus.OK);
-		//return  ResponseEntity.ok(response.get());
+		response.setData(optionalCreateErrorResponse.get());
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 
 	@GetMapping(value = "/detail/{id}/{token}")
