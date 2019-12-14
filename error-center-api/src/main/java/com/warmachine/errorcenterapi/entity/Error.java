@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.warmachine.errorcenterapi.util.Ambiente;
+import com.warmachine.errorcenterapi.util.Level;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -48,6 +50,12 @@ public class Error implements Serializable{
 	private String description;
 
 	@NotNull
-	private String level;
+	private Level level;
+
+	@NotNull
+	private Ambiente ambient;
+
+	@NotNull
+	private Byte archive;
 
 }
