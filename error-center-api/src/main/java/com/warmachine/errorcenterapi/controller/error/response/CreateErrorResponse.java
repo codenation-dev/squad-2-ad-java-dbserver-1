@@ -1,11 +1,11 @@
-package com.warmachine.errorcenterapi.controller.error.request;
+package com.warmachine.errorcenterapi.controller.error.response;
 
 import com.warmachine.errorcenterapi.util.Ambiente;
 import com.warmachine.errorcenterapi.util.Level;
 import lombok.Data;
 
 @Data
-public class ErrorRequest {
+public class CreateErrorResponse {
     private Ambiente ambiente;
     private Level level;
     private String log;
