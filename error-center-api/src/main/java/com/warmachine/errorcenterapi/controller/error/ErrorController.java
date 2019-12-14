@@ -1,28 +1,32 @@
 package com.warmachine.errorcenterapi.controller.error;
 
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.warmachine.errorcenterapi.controller.error.request.CreateErrorRequest;
 import com.warmachine.errorcenterapi.controller.error.response.ArchiveErrorResponse;
 import com.warmachine.errorcenterapi.controller.error.response.CreateErrorResponse;
 import com.warmachine.errorcenterapi.controller.error.response.DeleteErrorResponse;
 import com.warmachine.errorcenterapi.controller.error.response.DetailErrorResponse;
-import com.warmachine.errorcenterapi.controller.user.request.UserDto;
-import com.warmachine.errorcenterapi.entity.User;
 import com.warmachine.errorcenterapi.response.Response;
-import io.swagger.annotations.ApiOperation;
-import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
 import com.warmachine.errorcenterapi.service.impl.ErrorServiceImpl;
 
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import io.swagger.annotations.ApiOperation;
+import lombok.NonNull;
 
 @RestController
 @RequestMapping("/v1/errors")
