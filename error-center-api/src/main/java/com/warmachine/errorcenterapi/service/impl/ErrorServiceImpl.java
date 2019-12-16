@@ -60,7 +60,7 @@ public class ErrorServiceImpl {
         throw new IllegalArgumentException(Messages.UNABLE_TO_FIND_ERROR);
     }
 
-    public ErrorMessageResponse archive(Long id) throws IllegalAccessException {
+    public ErrorMessageResponse archive(Long id){
         Optional<Error> errorOpt = errorsRepository.findById(id);
 
         if(errorOpt.isPresent()){
@@ -70,7 +70,7 @@ public class ErrorServiceImpl {
             return new ErrorMessageResponse(Messages.ERROR_ARCHIVED);
         }
 
-        throw new IllegalAccessException(Messages.UNABLE_TO_FIND_ERROR);
+        throw new IllegalArgumentException(Messages.UNABLE_TO_FIND_ERROR);
     }
 
     public List<ErrorResponse> detailAllErrors() {

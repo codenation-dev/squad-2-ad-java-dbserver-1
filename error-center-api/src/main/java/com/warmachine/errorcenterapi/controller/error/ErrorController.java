@@ -63,7 +63,7 @@ public class ErrorController {
 
 	@PutMapping(value = "/archive/{id}")
 	@ApiOperation(value = "Operacao que arquiva um erro.", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ErrorMessageResponse> archive(@PathVariable @NonNull Long id) throws IllegalAccessException {
+	public ResponseEntity<ErrorMessageResponse> archive(@PathVariable @NonNull Long id) {
 		return  ResponseEntity.ok(errorService.archive(id));
 	}
 
