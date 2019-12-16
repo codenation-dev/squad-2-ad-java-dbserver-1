@@ -12,10 +12,10 @@ import java.util.List;
 public interface ErrorMapper {
 
     @Mappings({
-            @Mapping(source = "ambient", target = "ambiente"),
+            @Mapping(source = "ambient", target = "ambient"),
             @Mapping(source = "level", target = "level"),
-            @Mapping(source = "description", target = "detalhes"),
-            @Mapping(source = "coletadoPor", target = "user.email"),
+            @Mapping(source = "description", target = "description"),
+            @Mapping(source = "user.email", target = "collectedBy"),
     })
 
     List<ErrorResponse> map(List<Error> error);

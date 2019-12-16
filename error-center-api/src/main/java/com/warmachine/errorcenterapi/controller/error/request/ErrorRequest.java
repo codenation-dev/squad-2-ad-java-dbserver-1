@@ -11,12 +11,12 @@ import javax.validation.constraints.NotNull;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorRequest {
-    @NotNull(message = "Informe o Ambiente")
-    private Ambiente ambiente;
-    @NotNull(message = "Informe o Level")
+    @NotNull(message = "Inform the ambient")
+    private Ambiente ambient;
+    @NotNull(message = "Inform the level")
     private Level level;
-    @NotNull(message = "Informe os detalhes")
-    private String detalhes;
-    @NotNull(message = "Informe o Coletato por")
-    private String coletadoPor;
+    @NotNull(message = "Inform the description")
+    private String description;
+    @NotNull(message = "Inform who collected the error")
+    private String collectedBy;
 }

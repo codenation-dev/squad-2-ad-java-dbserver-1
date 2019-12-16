@@ -58,4 +58,7 @@ public class Error implements Serializable{
 	@NotNull
 	private Byte archive;
 
+	@NotNull
+	private String ipOrigin;
+
 }
