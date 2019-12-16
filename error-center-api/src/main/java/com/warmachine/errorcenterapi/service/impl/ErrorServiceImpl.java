@@ -1,18 +1,23 @@
 package com.warmachine.errorcenterapi.service.impl;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+import com.warmachine.errorcenterapi.Messages;
 import com.warmachine.errorcenterapi.controller.error.request.ErrorRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.warmachine.errorcenterapi.controller.error.response.ErrorMessageResponse;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.warmachine.errorcenterapi.controller.error.response.ErrorResponse;
-import com.warmachine.errorcenterapi.converter.ErrorRequestConverter;
+import com.warmachine.errorcenterapi.controller.error.converter.ErrorRequestConverter;
 import com.warmachine.errorcenterapi.entity.Error;
 import com.warmachine.errorcenterapi.entity.User;
 import com.warmachine.errorcenterapi.mapper.ErrorMapper;
 import com.warmachine.errorcenterapi.repository.ErrorsRepository;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Service
 public class ErrorServiceImpl {
@@ -20,48 +25,52 @@ public class ErrorServiceImpl {
     private ErrorsRepository errorsRepository;
     private ErrorMapper errorMapper;
     private ErrorRequestConverter converter;
+    private UserServiceImpl userService;
 
-    @Autowired
-    public ErrorServiceImpl(ErrorsRepository errorsRepository) {
+    public ErrorServiceImpl(ErrorsRepository errorsRepository, UserServiceImpl userService) {
         this.errorsRepository = errorsRepository;
+        this.userService = userService;
     }
 
-    public void createError(ErrorRequest createErrorRequest, User user) {
 
-        errorsRepository.save(converter.errorFromRequest(createErrorRequest, user));
+    public ErrorMessageResponse createError(ErrorRequest createErrorRequest, Principal principal) {
+        Optional<User> userOpt = userService.findByEmail(((UserDetails)principal).getUsername());
 
-    }
-
-    public ErrorResponse detailError(Long id) {
-
-        Optional<Error> errorOpt = errorsRepository.findById(id);
-        ErrorResponse errorResponse = null;
-        if(errorOpt.isPresent()){
-            Error error = errorOpt.get();
-            errorResponse = new ErrorResponse();
-            errorResponse.setAmbient(error.getAmbient());
-            errorResponse.setUsernameFromUser(error.getUser().getEmail());
-            errorResponse.setDescription(error.getDescription());
-            errorResponse.setLevel(error.getLevel());
+        if(userOpt.isPresent()){
+            User user = userOpt.get();
+            String ip = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                    .getRequest().getRemoteAddr();
+            errorsRepository.save(converter.errorFromRequest(createErrorRequest, user, ip));
+            return new ErrorMessageResponse(Messages.ERROR_CREATED);
         }
 
-        return errorResponse;
+       throw new IllegalArgumentException(Messages.UNABLE_TO_FIND_USER);
+
     }
 
-    public void delete(Long id) {
+    public ErrorMessageResponse delete(Long id) {
         Optional<Error> errorOpt = errorsRepository.findById(id);
+
         if(errorOpt.isPresent()) {
             Error error = errorOpt.get() ;
             errorsRepository.delete(error);
+            return new ErrorMessageResponse(Messages.ERROR_DELETED);
         }
+
+        throw new IllegalArgumentException(Messages.UNABLE_TO_FIND_ERROR);
     }
 
-    public void archive(Long id) {
+    public ErrorMessageResponse archive(Long id){
         Optional<Error> errorOpt = errorsRepository.findById(id);
+
         if(errorOpt.isPresent()){
             Error error = errorOpt.get();
             error.setArchive((byte) 0);
+            errorsRepository.save(error);
+            return new ErrorMessageResponse(Messages.ERROR_ARCHIVED);
         }
+
+        throw new IllegalAccessException(Messages.UNABLE_TO_FIND_ERROR);
     }
 
     public List<ErrorResponse> detailAllErrors() {

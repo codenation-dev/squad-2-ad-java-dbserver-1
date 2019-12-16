@@ -29,9 +29,7 @@ public class UserServiceImpl implements UserService{
 		return userRepository.findByEmailEquals(email);
 	}
 
-	
-	
-	
+
 	public String login(UserLoginRequest userLoginRequest) {
 		return "1234";
 	}
