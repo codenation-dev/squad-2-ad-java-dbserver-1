@@ -1,5 +1,8 @@
 package com.warmachine.errorcenterapi.controller.error;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.warmachine.errorcenterapi.Messages;
 import com.warmachine.errorcenterapi.controller.error.request.ErrorRequest;
 import com.warmachine.errorcenterapi.controller.error.response.ErrorMessageResponse;
@@ -16,6 +19,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +31,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.security.Principal;
 
-//TODO adicionar exceptions handlers
 @RestController
 @RequestMapping("/v1/errors")
 public class ErrorController {
@@ -60,7 +63,16 @@ public class ErrorController {
 
 	@PutMapping(value = "/archive/{id}")
 	@ApiOperation(value = "Operacao que arquiva um erro.", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ErrorMessageResponse> archive(@PathVariable @NonNull Long id){
+	public ResponseEntity<ErrorMessageResponse> archive(@PathVariable @NonNull Long id) throws IllegalAccessException {
 		return  ResponseEntity.ok(errorService.archive(id));
+	}
+
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<JsonNode> handleException(IllegalArgumentException e) {
+		HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+		ObjectNode jsonNode = new ObjectMapper().createObjectNode();
+		jsonNode.put("status", badRequest.value());
+		jsonNode.put("message", e.getMessage());
+		return ResponseEntity.status(badRequest).body(jsonNode);
 	}
 }
