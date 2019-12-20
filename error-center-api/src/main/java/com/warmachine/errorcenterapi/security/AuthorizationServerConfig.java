@@ -24,8 +24,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Value("${security.oauth2.client.client-secret}")
 	private String secret;
 
-	@Autowired
 	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	public AuthorizationServerConfig(AuthenticationManager authenticationManager){
+		this.authenticationManager = authenticationManager;
+	}
 
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) {

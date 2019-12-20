@@ -17,6 +17,5 @@ public class UserDto {
 	@Email(message = "Informe um email válido")
 	private String email;
 	@NotNull(message = "Informe password")
-	@Size(max = 50)
 	private String password;
 }

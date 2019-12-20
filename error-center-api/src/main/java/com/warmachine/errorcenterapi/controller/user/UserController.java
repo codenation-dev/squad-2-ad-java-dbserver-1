@@ -37,7 +37,7 @@ public class UserController {
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Operacao que realiza a criacao de um novo usuario.", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Response<UserDto>> create(@Valid @RequestBody UserDto dto, BindingResult result){
-		Response<UserDto> response = new Response<UserDto>();
+		Response<UserDto> response = new Response<>();
 		if(result.hasErrors()) {
 			result.getAllErrors().forEach(e -> response.getErrors().add(e.getDefaultMessage()));
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);

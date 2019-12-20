@@ -24,10 +24,8 @@ public class User implements Serializable{
 	private Long id;
 
 	@NotNull
-	@Size(max = 50)
 	private String email;
 
 	@NotNull
-	@Size(max = 50)
 	private String password;
 }

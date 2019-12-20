@@ -1,20 +1,22 @@
 package com.warmachine.errorcenterapi.security;
 
+import com.warmachine.errorcenterapi.dto.UserDetailDto;
+import com.warmachine.errorcenterapi.entity.User;
+import com.warmachine.errorcenterapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.warmachine.errorcenterapi.dto.UserDetailDto;
-import com.warmachine.errorcenterapi.entity.User;
-import com.warmachine.errorcenterapi.repository.UserRepository;
-
 @Configuration
 @EnableWebSecurity
+@EnableJpaRepositories(basePackages = "com.warmachine.errorcenterapi.repository")
 public class WebSecurityConfigAdapter extends WebSecurityConfigurerAdapter {
 
 	@Bean
@@ -23,7 +25,7 @@ public class WebSecurityConfigAdapter extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean  
-	public static BCryptPasswordEncoder passwordEncoder() {  
+	public static BCryptPasswordEncoder passwordEncoder() {
 	    return new BCryptPasswordEncoder();  
 		}
 
@@ -39,7 +41,7 @@ public class WebSecurityConfigAdapter extends WebSecurityConfigurerAdapter {
 		}
 
 		builder.userDetailsService(email -> new UserDetailDto(userRepository.findByEmailEquals(email)))
-        .passwordEncoder(passwordEncoder());
+				.passwordEncoder(passwordEncoder());
 	}
 
 }
