@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.warmachine.errorcenterapi.util.Ambiente;
 import com.warmachine.errorcenterapi.util.Level;
 import org.springframework.data.annotation.CreatedDate;
@@ -43,7 +44,7 @@ public class Error implements Serializable{
 	private LocalDateTime createdAt;
 	
 	@JoinColumn(name = "wallet", referencedColumnName = "id")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
 	
 	@NotNull
@@ -55,8 +56,7 @@ public class Error implements Serializable{
 	@NotNull
 	private Ambiente ambient;
 
-	@NotNull
-	private Byte archive;
+	private Byte status;
 
 	@NotNull
 	private String ipOrigin;

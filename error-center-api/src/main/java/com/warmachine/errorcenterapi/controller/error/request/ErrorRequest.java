@@ -17,6 +17,6 @@ public class ErrorRequest {
     private Level level;
     @NotNull(message = "Inform the description")
     private String description;
-    @NotNull(message = "Inform who collected the error")
-    private String collectedBy;
+//    @NotNull(message = "Inform if the error is archived")
+//    private Byte status;
 }

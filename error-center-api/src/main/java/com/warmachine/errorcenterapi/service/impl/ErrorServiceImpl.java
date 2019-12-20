@@ -1,20 +1,22 @@
 package com.warmachine.errorcenterapi.service.impl;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.warmachine.errorcenterapi.Messages;
+import com.warmachine.errorcenterapi.controller.error.converter.ErrorResponseConverter;
 import com.warmachine.errorcenterapi.controller.error.request.ErrorRequest;
 import com.warmachine.errorcenterapi.controller.error.response.ErrorMessageResponse;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.warmachine.errorcenterapi.controller.error.response.ErrorResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.warmachine.errorcenterapi.controller.error.response.ErrorResponse;
 import com.warmachine.errorcenterapi.controller.error.converter.ErrorRequestConverter;
 import com.warmachine.errorcenterapi.entity.Error;
 import com.warmachine.errorcenterapi.entity.User;
-import com.warmachine.errorcenterapi.mapper.ErrorMapper;
 import com.warmachine.errorcenterapi.repository.ErrorsRepository;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -23,24 +25,27 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class ErrorServiceImpl {
 
     private ErrorsRepository errorsRepository;
-    private ErrorMapper errorMapper;
     private ErrorRequestConverter converter;
     private UserServiceImpl userService;
 
-    public ErrorServiceImpl(ErrorsRepository errorsRepository, UserServiceImpl userService) {
+    @Autowired
+    public ErrorServiceImpl(ErrorsRepository errorsRepository, ErrorRequestConverter converter, UserServiceImpl userService) {
         this.errorsRepository = errorsRepository;
+        this.converter = converter;
         this.userService = userService;
     }
 
 
-    public ErrorMessageResponse createError(ErrorRequest createErrorRequest, Principal principal) {
-        Optional<User> userOpt = userService.findByEmail(((UserDetails)principal).getUsername());
+    public ErrorMessageResponse createError(ErrorRequest createErrorRequest) {
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> userOpt = userService.findByEmail(loggedInUser.getName());
 
         if(userOpt.isPresent()){
             User user = userOpt.get();
             String ip = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                     .getRequest().getRemoteAddr();
-            errorsRepository.save(converter.errorFromRequest(createErrorRequest, user, ip));
+            Error error = converter.errorFromRequest(createErrorRequest, user, ip);
+            errorsRepository.save(error);
             return new ErrorMessageResponse(Messages.ERROR_CREATED);
         }
 
@@ -65,7 +70,7 @@ public class ErrorServiceImpl {
 
         if(errorOpt.isPresent()){
             Error error = errorOpt.get();
-            error.setArchive((byte) 0);
+            //error.setStatus(Boolean.FALSE);
             errorsRepository.save(error);
             return new ErrorMessageResponse(Messages.ERROR_ARCHIVED);
         }
@@ -74,6 +79,11 @@ public class ErrorServiceImpl {
     }
 
     public List<ErrorResponse> detailAllErrors() {
-        return errorMapper.map(errorsRepository.findAll());
+        List<Error> errors = errorsRepository.findAll();
+        return errors.stream()
+                .map(ErrorResponseConverter::errorResponseFromEntity)
+                .collect(Collectors.toList());
+
     }
+
 }

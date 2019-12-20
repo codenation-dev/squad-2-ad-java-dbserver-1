@@ -10,4 +10,6 @@ public class ErrorResponse {
     private Level level;
     private String description;
     private String usernameFromUser;
+    private String status;
+    private String ipOrigin;
 }

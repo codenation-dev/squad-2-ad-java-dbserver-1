@@ -19,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.warmachine.errorcenterapi.service.impl.ErrorServiceImpl;
-import java.security.Principal;
 
 @RestController
 @RequestMapping("/v1/errors")
@@ -34,8 +33,8 @@ public class ErrorController {
 
 	@PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Operacao que realiza a criacao de um novo erro.", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ErrorMessageResponse> createError(@Valid @RequestBody ErrorRequest errorRequest, Principal principal) {
-		return ResponseEntity.ok(errorService.createError(errorRequest, principal));
+	public ResponseEntity<ErrorMessageResponse> createError(@Valid @RequestBody ErrorRequest errorRequest) {
+		return ResponseEntity.ok(errorService.createError(errorRequest));
 	}
 
 

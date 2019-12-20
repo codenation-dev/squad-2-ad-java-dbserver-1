@@ -1,12 +1,10 @@
 package com.warmachine.errorcenterapi.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.warmachine.errorcenterapi.ContextsLoads;
 import com.warmachine.errorcenterapi.Messages;
 import com.warmachine.errorcenterapi.base.controller.BaseControllerTest;
-import com.warmachine.errorcenterapi.controller.error.ErrorController;
 import com.warmachine.errorcenterapi.controller.error.request.ErrorRequest;
 import com.warmachine.errorcenterapi.controller.error.response.ErrorMessageResponse;
 import com.warmachine.errorcenterapi.service.impl.ErrorServiceImpl;
@@ -15,7 +13,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -27,8 +24,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.security.Principal;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -64,7 +59,7 @@ public class ErrorControllerTest extends BaseControllerTest {
 
         final ErrorMessageResponse response = new ErrorMessageResponse(Messages.ERROR_CREATED);
 
-        when(errorService.createError(any(ErrorRequest.class), any(Principal.class))).thenReturn(response);
+        when(errorService.createError(any(ErrorRequest.class))).thenReturn(response);
 
         mockMvc.perform(post(SESSION_URL)
                 .accept(MediaType.APPLICATION_JSON)
