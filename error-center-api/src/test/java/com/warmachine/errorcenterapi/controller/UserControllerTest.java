@@ -35,9 +35,11 @@ import com.warmachine.errorcenterapi.entity.User;
 import com.warmachine.errorcenterapi.service.UserService;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(UserController.class)
+//@WebMvcTest(ErrorController.class)
 @ActiveProfiles("test")
 @Import(ContextsLoads.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class UserControllerTest {
 
 	private static final Long ID = 1L;
