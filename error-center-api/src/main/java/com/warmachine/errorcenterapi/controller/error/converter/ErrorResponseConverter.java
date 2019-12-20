@@ -8,18 +8,13 @@ import org.springframework.stereotype.Component;
 public class ErrorResponseConverter {
 
     public static ErrorResponse errorResponseFromEntity(Error error){
-        ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setDescription(error.getDescription());
-        errorResponse.setUsernameFromUser(error.getUser().getEmail());
-        errorResponse.setAmbient(error.getAmbient());
-        errorResponse.setLevel(error.getLevel());
-        errorResponse.setIpOrigin(error.getIpOrigin());
+        return ErrorResponse.builder().description(error.getDescription()).usernameFromUser(error.getUser().getEmail())
+                               .ambient(error.getAmbient()).level(error.getLevel()).ipOrigin(error.getIpOrigin()).build();
 //        if(error.getStatus() == 0) {
 //            errorResponse.setStatus("Archived");
 //        }
 //        else{
 //            errorResponse.setStatus("Not Archived");
 //        }
-        return errorResponse;
     }
 }

@@ -17,13 +17,9 @@ import javax.validation.constraints.NotNull;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.warmachine.errorcenterapi.util.Ambiente;
 import com.warmachine.errorcenterapi.util.Level;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 @Entity
 @AllArgsConstructor
@@ -32,6 +28,7 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 @EqualsAndHashCode(of = "id")
 @Table(name="errors")
+@Builder
 public class Error implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -60,5 +57,4 @@ public class Error implements Serializable{
 
 	@NotNull
 	private String ipOrigin;
-
 }
