@@ -56,7 +56,7 @@ public class Error implements Serializable{
 	@NotNull
 	private Ambiente ambient;
 
-	private Byte status;
+	//private Byte status;
 
 	@NotNull
 	private String ipOrigin;

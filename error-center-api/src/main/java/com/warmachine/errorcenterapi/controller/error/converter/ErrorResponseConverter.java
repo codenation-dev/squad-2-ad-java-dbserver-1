@@ -14,12 +14,12 @@ public class ErrorResponseConverter {
         errorResponse.setAmbient(error.getAmbient());
         errorResponse.setLevel(error.getLevel());
         errorResponse.setIpOrigin(error.getIpOrigin());
-        if(error.getStatus() == 0) {
-            errorResponse.setStatus("Archived");
-        }
-        else{
-            errorResponse.setStatus("Not Archived");
-        }
+//        if(error.getStatus() == 0) {
+//            errorResponse.setStatus("Archived");
+//        }
+//        else{
+//            errorResponse.setStatus("Not Archived");
+//        }
         return errorResponse;
     }
 }
