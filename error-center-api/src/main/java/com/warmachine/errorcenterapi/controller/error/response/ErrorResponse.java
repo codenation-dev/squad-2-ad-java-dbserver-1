@@ -2,6 +2,7 @@ package com.warmachine.errorcenterapi.controller.error.response;
 
 import com.warmachine.errorcenterapi.util.Ambiente;
 import com.warmachine.errorcenterapi.util.Level;
+import com.warmachine.errorcenterapi.util.Status;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,6 @@ public class ErrorResponse {
     private Level level;
     private String description;
     private String usernameFromUser;
-    private String status;
+    private Status status;
     private String ipOrigin;
 }

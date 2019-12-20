@@ -9,12 +9,7 @@ public class ErrorResponseConverter {
 
     public static ErrorResponse errorResponseFromEntity(Error error){
         return ErrorResponse.builder().description(error.getDescription()).usernameFromUser(error.getUser().getEmail())
-                               .ambient(error.getAmbient()).level(error.getLevel()).ipOrigin(error.getIpOrigin()).build();
-//        if(error.getStatus() == 0) {
-//            errorResponse.setStatus("Archived");
-//        }
-//        else{
-//            errorResponse.setStatus("Not Archived");
-//        }
+                               .ambient(error.getAmbient()).level(error.getLevel()).ipOrigin(error.getIpOrigin())
+                               .status(error.getStatus()).build();
     }
 }

@@ -3,7 +3,7 @@ package com.warmachine.errorcenterapi.controller.error.converter;
 import com.warmachine.errorcenterapi.controller.error.request.ErrorRequest;
 import com.warmachine.errorcenterapi.entity.Error;
 import com.warmachine.errorcenterapi.entity.User;
-import org.springframework.context.annotation.Bean;
+import com.warmachine.errorcenterapi.util.Status;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,6 +16,7 @@ public class ErrorRequestConverter {
         error.setLevel(createErrorRequest.getLevel());
         error.setIpOrigin(ip);
         error.setAmbient(createErrorRequest.getAmbient());
+        error.setStatus(Status.ACTIVE);
         return error;
     }
 

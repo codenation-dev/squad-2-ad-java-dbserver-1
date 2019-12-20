@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.warmachine.errorcenterapi.util.Ambiente;
 import com.warmachine.errorcenterapi.util.Level;
+import com.warmachine.errorcenterapi.util.Status;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -40,7 +41,7 @@ public class Error implements Serializable{
 	@CreatedDate
 	private LocalDateTime createdAt;
 	
-	@JoinColumn(name = "wallet", referencedColumnName = "id")
+	@JoinColumn(name = "user", referencedColumnName = "id")
 	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
 	
@@ -53,7 +54,8 @@ public class Error implements Serializable{
 	@NotNull
 	private Ambiente ambient;
 
-	//private Byte status;
+	@NotNull
+	private Status status;
 
 	@NotNull
 	private String ipOrigin;

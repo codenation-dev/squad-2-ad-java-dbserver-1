@@ -9,6 +9,7 @@ import com.warmachine.errorcenterapi.controller.error.converter.ErrorResponseCon
 import com.warmachine.errorcenterapi.controller.error.request.ErrorRequest;
 import com.warmachine.errorcenterapi.controller.error.response.ErrorMessageResponse;
 import com.warmachine.errorcenterapi.controller.error.response.ErrorResponse;
+import com.warmachine.errorcenterapi.util.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -70,7 +71,7 @@ public class ErrorServiceImpl {
 
         if(errorOpt.isPresent()){
             Error error = errorOpt.get();
-            //error.setStatus(Boolean.FALSE);
+            error.setStatus(Status.ARCHIVED);
             errorsRepository.save(error);
             return new ErrorMessageResponse(Messages.ERROR_ARCHIVED);
         }
