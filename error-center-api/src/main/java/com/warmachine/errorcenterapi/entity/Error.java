@@ -41,7 +41,7 @@ public class Error implements Serializable{
 	@CreatedDate
 	private LocalDateTime createdAt;
 	
-	@JoinColumn(name = "user", referencedColumnName = "id")
+	@JoinColumn(name = "wallet", referencedColumnName = "id")
 	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
 	

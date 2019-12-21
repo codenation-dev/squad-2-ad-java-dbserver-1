@@ -47,6 +47,7 @@ public class ErrorControllerTest extends BaseControllerTest {
     private static final String SESSION_URL_CREATE = "/v1/errors/create";
     private static final String SESSION_URL_DETAIL = "/v1/errors/detail";
     private static final String SESSION_URL_DELETE = "/v1/errors/delete/1";
+    private static final String SESSION_URL_ARCHIVE = "/v1/errors/archive/1";
 
     private ObjectMapper mapper;
 
@@ -62,6 +63,21 @@ public class ErrorControllerTest extends BaseControllerTest {
     @Before
     public void setUp() {
         this.mapper = new ObjectMapper();
+    }
+
+    public void deveRetornarSucessoQuandoReceboUmIdCorretoParaArquivarUmErro() throws Exception {
+        Error error = Error.builder().id(1L).build();
+        final String expectedResponse = loadResourceAsString("json/archive/archive-error-response.json");
+
+        final ErrorMessageResponse response = new ErrorMessageResponse(Messages.ERROR_ARCHIVED);
+
+        when(errorService.archive(error.getId())).thenReturn(response);
+
+        when(errorsRepository.findById(error.getId())).thenReturn(java.util.Optional.of(error));
+
+        mockMvc.perform(put(SESSION_URL_ARCHIVE))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedResponse));
     }
 
     @Test
